@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="renderer" content="webkit">
+  <title>无人机综合管控平台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/layui@2.9.21/dist/css/layui.css">
+  <link rel="stylesheet" href="./assets/css/screen.css">
+</head>
+<body>
+  <div class="viewport">
+    <main class="screen" id="screen">
+      <img class="map-bg" src="./assets/images/park-map-bg.png" alt="">
+      <img class="screen-frame" src="./assets/images/screen-frame.png" alt="">
+
+      <header class="topbar">
+        <div class="topbar-side">
+          <span class="top-pill">系统在线</span>
+          <span>今日任务 <strong>126</strong></span>
+          <span>可用电量 <strong>92%</strong></span>
+        </div>
+
+        <div class="brand">
+          <img class="brand-glow" src="./assets/images/title-glow-main.png" alt="">
+          <img class="brand-line brand-line-top" src="./assets/images/title-line-top.png" alt="">
+          <h1>无人机综合管控平台</h1>
+          <img class="brand-line brand-line-bottom" src="./assets/images/title-line-bottom.png" alt="">
+        </div>
+
+        <div class="topbar-side topbar-side-right">
+          <span id="clock">2026-07-01 00:00:00</span>
+          <span>园区风级 <strong>2级</strong></span>
+          <span class="top-pill top-pill-cyan">低空安全</span>
+        </div>
+      </header>
+
+      <aside class="panel panel-left panel-a">
+        <div class="panel-title">
+          <span>设备总览</span>
+          <small>Equipment Overview</small>
+        </div>
+        <div class="stat-grid layui-row">
+          <div class="stat-item layui-col-xs6">
+            <span>无人机总数</span>
+            <strong>32</strong>
+          </div>
+          <div class="stat-item layui-col-xs6">
+            <span>在线设备</span>
+            <strong>27</strong>
+          </div>
+          <div class="stat-item layui-col-xs6">
+            <span>飞行中</span>
+            <strong class="cyan">8</strong>
+          </div>
+          <div class="stat-item layui-col-xs6">
+            <span>异常告警</span>
+            <strong class="orange">3</strong>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel panel-left panel-b">
+        <div class="panel-title">
+          <span>今日飞行</span>
+          <small>Flight Statistics</small>
+        </div>
+        <div class="flight-summary">
+          <div>
+            <em>482</em>
+            <span>巡检里程 km</span>
+          </div>
+          <div>
+            <em>18.6</em>
+            <span>累计时长 h</span>
+          </div>
+        </div>
+        <div class="bar-list">
+          <div class="bar-row" style="--value: 82%">
+            <label>园区巡检</label>
+            <div><i></i></div>
+            <span>82%</span>
+          </div>
+          <div class="bar-row" style="--value: 64%">
+            <label>航线复核</label>
+            <div><i></i></div>
+            <span>64%</span>
+          </div>
+          <div class="bar-row" style="--value: 46%">
+            <label>展区安防</label>
+            <div><i></i></div>
+            <span>46%</span>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel panel-left panel-c">
+        <div class="panel-title">
+          <span>环境监测</span>
+          <small>Environment</small>
+        </div>
+        <div class="weather-grid">
+          <div class="weather-item">
+            <img src="./assets/images/icon-temperature.png" alt="">
+            <span>温度</span>
+            <strong>26.4°C</strong>
+          </div>
+          <div class="weather-item">
+            <img src="./assets/images/icon-humidity.png" alt="">
+            <span>湿度</span>
+            <strong>58%</strong>
+          </div>
+          <div class="weather-item">
+            <img src="./assets/images/icon-wind.png" alt="">
+            <span>风速</span>
+            <strong>3.2m/s</strong>
+          </div>
+        </div>
+      </aside>
+
+      <section class="map-layer" aria-label="园区无人机态势">
+        <svg class="route-lines" viewBox="0 0 980 720" aria-hidden="true">
+          <path class="route route-main" d="M144 548 C268 432 368 450 446 326 S644 204 792 246" />
+          <path class="route route-sub" d="M250 292 C342 218 464 250 556 184 S718 108 842 150" />
+          <path class="route route-warn" d="M368 566 C444 604 548 608 636 552 S744 458 834 490" />
+        </svg>
+
+        <div class="scan-ring"></div>
+
+        <div class="map-point point-a">
+          <img class="point-pad" src="./assets/images/marker-pad-1.png" alt="">
+          <img class="drone-icon" src="./assets/images/drone-main.png" alt="">
+          <div class="point-popup popup-wide">
+            <img src="./assets/images/popup-card-wide.png" alt="">
+            <strong>巡检机 A-07</strong>
+            <span>航线 03 | 72m | 46km/h</span>
+          </div>
+        </div>
+
+        <div class="map-point point-b">
+          <img class="point-pad" src="./assets/images/marker-pad-2.png" alt="">
+          <img class="drone-icon small" src="./assets/images/drone-mini.png" alt="">
+          <div class="point-popup popup-thin">
+            <img src="./assets/images/popup-card-thin.png" alt="">
+            <strong>地面站 B03</strong>
+          </div>
+        </div>
+
+        <div class="map-point point-c">
+          <img class="point-pad" src="./assets/images/marker-pad-3.png" alt="">
+          <img class="drone-icon" src="./assets/images/runway.png" alt="">
+          <div class="point-popup popup-tall">
+            <img src="./assets/images/popup-card-tall.png" alt="">
+            <strong>起降坪 C02</strong>
+            <span>待命 | 电量 88%</span>
+          </div>
+        </div>
+
+        <div class="map-point point-d">
+          <img class="point-pad" src="./assets/images/pedestal-cyan.png" alt="">
+          <img class="drone-icon flight" src="./assets/images/icon-flight.png" alt="">
+        </div>
+      </section>
+
+      <aside class="panel panel-right panel-d">
+        <div class="panel-title">
+          <span>任务队列</span>
+          <small>Mission Queue</small>
+        </div>
+        <table class="layui-table mission-table" lay-skin="line">
+          <tbody>
+            <tr>
+              <td>园区北线巡检</td>
+              <td>UAV-A07</td>
+              <td><span class="layui-badge layui-bg-blue">执行中</span></td>
+            </tr>
+            <tr>
+              <td>展厅屋面复核</td>
+              <td>UAV-B12</td>
+              <td><span class="layui-badge layui-bg-green">待起飞</span></td>
+            </tr>
+            <tr>
+              <td>边界电子围栏</td>
+              <td>UAV-C09</td>
+              <td><span class="layui-badge layui-bg-orange">返航</span></td>
+            </tr>
+            <tr>
+              <td>充电舱自检</td>
+              <td>Dock-03</td>
+              <td><span class="layui-badge">告警</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </aside>
+
+      <aside class="panel panel-right panel-e">
+        <div class="panel-title">
+          <span>告警事件</span>
+          <small>Alarm Events</small>
+        </div>
+        <ul class="alarm-list">
+          <li>
+            <time>14:26</time>
+            <div>
+              <strong>Dock-03 舱门状态异常</strong>
+              <span>已派发巡检复核任务</span>
+            </div>
+          </li>
+          <li>
+            <time>13:48</time>
+            <div>
+              <strong>东侧边界低空闯入</strong>
+              <span>电子围栏已触发驱离</span>
+            </div>
+          </li>
+          <li>
+            <time>11:32</time>
+            <div>
+              <strong>航线 02 风速波动</strong>
+              <span>自动调整飞行高度</span>
+            </div>
+          </li>
+        </ul>
+      </aside>
+
+      <aside class="panel panel-right panel-f">
+        <div class="panel-title">
+          <span>机型展品</span>
+          <small>Drone Assets</small>
+        </div>
+        <div class="exhibit-box">
+          <div>
+            <img src="./assets/images/exhibit-drone-1.png" alt="">
+            <span>复合翼巡检机</span>
+          </div>
+          <div>
+            <img src="./assets/images/exhibit-drone-2.png" alt="">
+            <span>多旋翼安防机</span>
+          </div>
+        </div>
+      </aside>
+
+      <footer class="bottom-status">
+        <div>
+          <span>低空航线</span>
+          <strong>16</strong>
+        </div>
+        <div>
+          <span>停机坪</span>
+          <strong>9</strong>
+        </div>
+        <div>
+          <span>电子围栏</span>
+          <strong>24</strong>
+        </div>
+        <div>
+          <span>实时链路</span>
+          <strong>99.98%</strong>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/layui@2.9.21/dist/layui.js"></script>
+  <script src="./assets/js/screen.js"></script>
+</body>
+</html>
