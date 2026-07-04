@@ -65,13 +65,12 @@ body {
   overflow: hidden;
   transform-origin: 0 0;
   background:
-    linear-gradient(
+    /* linear-gradient(
       90deg,
       rgba(2, 8, 20, 0.96) 0%,
       rgba(3, 25, 52, 0.72) 50%,
-      rgba(2, 8, 20, 0.96) 100%
-    ),
-    #031127;
+      #061e41 100%
+    ), */ #061e41;
 }
 
 .map-bg {
@@ -204,7 +203,7 @@ body {
   position: absolute;
   z-index: 8;
   width: 408px;
-  padding: 0px 22px 22px;
+  padding: 2px 22px 22px;
   /* height: 238px; */
   background:
     url('../images/title-line-bottom.png') no-repeat bottom center,
@@ -213,6 +212,7 @@ body {
     /* 图2：放最上面写标题 */ url('../images/title-line-top.png') repeat-y
       center; /* 图1：从上到下平铺 */
   /* background: url('../images/title-line-top.png') repeat-y center; */
+  background-size: contain;
 }
 
 .panel-left {
@@ -223,13 +223,17 @@ body {
   right: 44px;
 }
 
-.panel-a,
+.panel-a {
+  top: 126px;
+  height: 276px;
+}
+
 .panel-d {
   top: 126px;
   height: 238px;
 }
 
-.panel-b,
+/* .panel-b, */
 .panel-e {
   top: 392px;
   height: 276px;
@@ -241,16 +245,25 @@ body {
   height: 248px;
 }
 
+.panel-left.panel-b {
+  top: 426px;
+}
+
+.panel-left.panel-c {
+  top: 660px;
+}
+
 .panel-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 34px;
   margin-bottom: 18px;
+  padding-left: 16px;
 }
 
 .panel-title span {
-  font-family: 'SourceHanMedium';
+  font-family: 'SourceHanBold';
   font-size: 14px;
   line-height: 1;
   letter-spacing: 1px;
@@ -262,9 +275,9 @@ body {
   -webkit-text-fill-color: transparent;
 
   /* 2. 实现浅蓝色的外发光与微描边效果 */
-  -webkit-text-stroke: 1px rgba(111, 203, 255, 0.4);
+  /* -webkit-text-stroke: 1px rgba(111, 203, 255, 0.4); */
   filter: drop-shadow(0 0 2px rgba(92, 191, 255, 0.3))
-    drop-shadow(0 0 5px rgba(43, 142, 255, 0.1));
+    drop-shadow(0 0 5px rgba(43, 142, 255, 0.5));
 
   /* 确保块级或行内块级以正确支持 filter 滤镜渲染 */
   display: inline-block;
@@ -274,6 +287,119 @@ body {
   color: rgba(128, 201, 255, 0.72);
   font-size: 12px;
   text-transform: uppercase;
+}
+.panel-title::before {
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  width: 18px;
+  height: 18px;
+  content: '';
+  background: url('../images/marker-dot.png') no-repeat center center;
+}
+.annual-stat-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  height: calc(100% - 58px);
+  padding: 0 10px;
+}
+
+.annual-stat-grid::before,
+.annual-stat-grid::after {
+  position: absolute;
+  z-index: 0;
+  content: '';
+  pointer-events: none;
+  background: rgba(31, 209, 255, 0.34);
+  box-shadow: 0 0 10px rgba(31, 209, 255, 0.34);
+}
+
+.annual-stat-grid::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+}
+
+.annual-stat-grid::after {
+  right: 8px;
+  left: 8px;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.annual-stat-item {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.annual-stat-item:nth-child(odd) {
+  padding-right: 10px;
+}
+
+.annual-stat-item:nth-child(even) {
+  padding-left: 18px;
+}
+
+.annual-stat-item img {
+  flex: 0 0 auto;
+  width: 76px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(25, 187, 255, 0.55));
+}
+
+.annual-stat-item div {
+  min-width: 0;
+}
+
+.annual-stat-item span {
+  display: block;
+  color: #aacded;
+  font-family: 'SourceHanMedium', 'SourceHan', sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  white-space: nowrap;
+  text-shadow: 0 0 8px rgba(70, 151, 255, 0.45);
+}
+
+.annual-stat-item p {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin: 10px 0 0;
+  white-space: nowrap;
+}
+
+.annual-stat-item strong {
+  display: block;
+  color: #ffffff;
+  font-family: 'YouShe';
+  font-size: 26px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 0.78;
+  text-shadow:
+    2px 3px 0 rgba(8, 28, 58, 0.86),
+    0 0 13px rgba(114, 187, 255, 0.48);
+}
+
+.annual-stat-item em {
+  color: #a7c8eb;
+  font-family: 'SourceHan';
+  font-size: 14px;
+  font-style: normal;
+  line-height: 1;
+  text-shadow: 0 0 8px rgba(62, 158, 255, 0.45);
 }
 
 .stat-grid {
@@ -331,6 +457,101 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 18px;
   margin-bottom: 22px;
+}
+
+.panel-b {
+  padding-right: 18px;
+  padding-left: 18px;
+}
+
+.panel-b .panel-title {
+  margin-bottom: 14px;
+}
+
+.site-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 6px;
+  padding: 30px 2px 0;
+}
+
+.site-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.site-stat-item > span {
+  /* min-height: 50px; */
+  color: #a8ccee;
+  font-family: 'SourceHan';
+  font-size: 12px;
+  line-height: 1.35;
+  text-shadow: 0 0 8px rgba(72, 158, 255, 0.35);
+}
+
+.site-stat-pad {
+  position: relative;
+  width: 103px;
+  /* margin-top: 12px; */
+}
+
+.site-stat-pad img {
+  display: block;
+  width: 103px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 14px rgba(5, 33, 74, 0.42));
+}
+
+.site-stat-pad p {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  margin: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.site-stat-pad strong {
+  font-family: 'SourceHanBold';
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  filter: drop-shadow(1px 2px 0 rgba(8, 28, 58, 0.9));
+}
+/* 蓝白渐变（适配30的效果） */
+.stat-blue {
+  background: linear-gradient(180deg, #ffffff 0%, #b8e4ff 50%, #3a9dff 100%);
+  text-shadow:
+    0 0 8px rgba(101, 188, 255, 0.5),
+    0 0 16px rgba(101, 188, 255, 0.3);
+}
+
+/* 绿白渐变（适配139的效果） */
+.stat-green {
+  background: linear-gradient(180deg, #ffffff 0%, #a8ffd1 50%, #28e080 100%);
+  text-shadow:
+    0 0 8px rgba(40, 224, 128, 0.5),
+    0 0 16px rgba(40, 224, 128, 0.3);
+}
+.site-stat-pad em {
+  color: #b3d4f2;
+  font-family: 'SourceHan';
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.1;
+  text-shadow: 0 0 8px rgba(72, 158, 255, 0.28);
 }
 
 .flight-summary div {
@@ -413,6 +634,97 @@ body {
   line-height: 1;
 }
 
+.panel-c {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.panel-c .panel-title {
+  margin-bottom: 10px;
+}
+
+.hangar-exhibit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.hangar-exhibit-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  height: 150px;
+  padding: 12px 8px 10px;
+  overflow: hidden;
+  background: url('../images/exhibit-drone-1.png') no-repeat center center;
+  background-size: 100% 100%;
+  box-shadow: inset 0 0 18px rgba(27, 121, 208, 0.12);
+}
+
+.hangar-exhibit-card.is-green {
+  background: url('../images/exhibit-drone-2.png') no-repeat center center;
+  background-size: 100% 100%;
+}
+
+.hangar-exhibit-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 54px;
+  margin-bottom: 10px;
+}
+
+.hangar-exhibit-bg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 86px;
+  height: 114px;
+  object-fit: contain;
+  opacity: 0.18;
+  transform: translate(-50%, -48%);
+}
+
+.hangar-exhibit-drone {
+  position: relative;
+  z-index: 1;
+  width: 64px;
+  height: auto;
+}
+
+.hangar-exhibit-card strong {
+  margin-top: 2px;
+  color: #acd2fe;
+  font-family: 'SourceHanBold';
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.hangar-exhibit-card.is-green strong {
+  color: #1adcbb;
+}
+
+.hangar-exhibit-card span {
+  margin-top: 14px;
+  color: #b7d8f4;
+  font-family: 'SourceHanMedium', 'SourceHan', sans-serif;
+  font-size: 15px;
+  line-height: 1.25;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(72, 158, 255, 0.3);
+}
+
+.hangar-exhibit-card.is-green span {
+  color: #2ad9aa;
+  text-shadow: 0 0 8px rgba(43, 218, 153, 0.26);
+}
+
 .map-layer {
   position: absolute;
   left: 470px;
@@ -458,40 +770,6 @@ body {
 @keyframes dash {
   to {
     stroke-dashoffset: -220;
-  }
-}
-
-.scan-ring {
-  position: absolute;
-  left: 385px;
-  top: 292px;
-  width: 210px;
-  height: 210px;
-  border: 1px solid rgba(47, 231, 255, 0.42);
-  border-radius: 50%;
-  box-shadow:
-    0 0 36px rgba(42, 214, 255, 0.22),
-    inset 0 0 36px rgba(42, 214, 255, 0.15);
-  animation: pulse 2.8s ease-in-out infinite;
-}
-
-.scan-ring::after {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 16px;
-  height: 16px;
-  margin: -8px 0 0 -8px;
-  border-radius: 50%;
-  content: '';
-  background: #2ff7ff;
-  box-shadow: 0 0 24px #2ff7ff;
-}
-
-@keyframes pulse {
-  50% {
-    transform: scale(1.12);
-    opacity: 0.64;
   }
 }
 
