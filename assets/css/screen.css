@@ -917,7 +917,7 @@ body {
   z-index: 100;
   min-width: 220px;
   /* 给顶部/底部伪元素留出空间 */
-  padding: 20px 0px 30px;
+  padding: 20px 0px 29.4px;
   box-sizing: border-box;
 
   /* 中间只保留可重复主体背景，并限制高度范围 */
@@ -1024,7 +1024,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 0 40px;
   padding-top: 5px;
   margin: 0 10px;
   border-top: 1px solid rgba(76, 181, 255, 0.3);
@@ -1035,6 +1034,7 @@ body {
   justify-content: space-between;
   color: #fff;
   font-size: 12px;
+  padding: 0 30px;
 }
 
 .popup-row span:first-child {
@@ -1042,20 +1042,42 @@ body {
 }
 
 .popup-bar {
+  padding: 0 20px;
   margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.popup-bar span {
-  display: block;
-  margin-bottom: 4px;
+.bar-text {
   color: #7fbce8;
-  font-size: 11px;
+  font-size: 12px;
+  text-align: center;
 }
 
-.bar-fill {
-  height: 8px;
-  background: linear-gradient(90deg, #ff6b6b, #ffa502);
-  border-radius: 4px;
+.bar-text .bar-num {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 2px;
+}
+
+.bar-grid {
+  display: flex;
+  gap: 0px;
+}
+
+.bar-cell {
+  flex: 1;
+  height: 15px;
+  background: rgba(50, 50, 70, 0.6);
+  border-right: 1px solid rgba(50, 50, 70, 0.6);
+}
+.bar-cell:last-child {
+  border-right: none;
+}
+.bar-cell.used {
+  background: rgba(30, 140, 255, 0.9);
 }
 
 .route-lines {
