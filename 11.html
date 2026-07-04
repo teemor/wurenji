@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>园区无人机态势</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/layui@2.9.8/dist/css/layui.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #0a1a2f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: 'Microsoft YaHei', sans-serif;
+      }
+
+      .map-layer {
+        position: relative;
+        width: 900px;
+        height: 700px;
+        background: radial-gradient(ellipse at center, #132c4a, #091a2e);
+        border-radius: 20px;
+        border: 1px solid rgba(76, 181, 255, 0.2);
+        box-shadow: 0 0 60px rgba(50, 200, 255, 0.1);
+        overflow: visible;
+      }
+
+      .map-zones {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .zone {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        pointer-events: auto;
+        border-radius: 8px;
+        transition: all 0.4s ease;
+        z-index: 1;
+      }
+
+      .zone-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04); /* 默认极淡透明 */
+        border: 1.5px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.5s ease;
+        opacity: 0.6;
+      }
+
+      /* ★★★ 默认不显示颜色，只有激活（is-active）才显示 ★★★ */
+      .zone.is-active .zone-bg {
+        opacity: 0.85;
+      }
+
+      /* 占用状态 - 红色（仅激活时生效） */
+      .zone.occupied.is-active .zone-bg {
+        background: rgba(255, 70, 70, 0.55);
+        border-color: rgba(255, 70, 70, 0.85);
+        box-shadow: 0 0 35px rgba(255, 70, 70, 0.3);
+      }
+
+      /* 空闲状态 - 绿色（仅激活时生效） */
+      .zone.free.is-active .zone-bg {
+        background: rgba(50, 200, 100, 0.4);
+        border-color: rgba(50, 200, 100, 0.65);
+        box-shadow: 0 0 35px rgba(50, 200, 100, 0.2);
+      }
+
+      /* 状态文字标签 - 默认透明，激活才显色 */
+      .zone-status {
+        position: relative;
+        z-index: 2;
+        margin-top: 4px;
+        padding: 2px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(255, 255, 255, 0.4);
+        transition: all 0.4s ease;
+        box-shadow: none;
+      }
+
+      .zone.occupied.is-active .zone-status {
+        background: rgba(255, 70, 70, 0.85);
+        color: #fff;
+        box-shadow: 0 2px 12px rgba(255, 70, 70, 0.3);
+      }
+
+      .zone.free.is-active .zone-status {
+        background: rgba(50, 200, 100, 0.75);
+        color: #fff;
+        box-shadow: 0 2px 12px rgba(50, 200, 100, 0.25);
+      }
+
+      /* 高亮外发光（激活时统一蓝色光晕） */
+      .zone.is-active {
+        z-index: 10;
+      }
+      .zone.is-active .zone-bg {
+        border-color: #38a7ff;
+        box-shadow: 0 0 40px rgba(56, 167, 255, 0.25);
+      }
+      /* 但红色/绿色覆盖蓝色边框（保留内发光） */
+      .zone.occupied.is-active .zone-bg {
+        border-color: rgba(255, 70, 70, 0.85);
+        box-shadow:
+          0 0 40px rgba(255, 70, 70, 0.25),
+          inset 0 0 20px rgba(255, 70, 70, 0.05);
+      }
+      .zone.free.is-active .zone-bg {
+        border-color: rgba(50, 200, 100, 0.65);
+        box-shadow:
+          0 0 40px rgba(50, 200, 100, 0.2),
+          inset 0 0 20px rgba(50, 200, 100, 0.05);
+      }
+
+      .zone-label {
+        position: relative;
+        z-index: 2;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 14px;
+        font-weight: 600;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        letter-spacing: 0.5px;
+        transition: color 0.4s ease;
+      }
+      .zone.is-active .zone-label {
+        color: #fff;
+      }
+
+      /* 机库尺寸 */
+      .hangar {
+        width: 110px;
+        height: 85px;
+      }
+      .hangar-1 {
+        left: 340px;
+        top: 180px;
+      }
+      .hangar-2 {
+        left: 120px;
+        top: 280px;
+      }
+      .hangar-3 {
+        left: 120px;
+        top: 120px;
+      }
+
+      /* 跑道尺寸 */
+      .runway {
+        width: 200px;
+        height: 42px;
+      }
+      .runway-a {
+        left: 150px;
+        top: 580px;
+      }
+      .runway-b {
+        left: 450px;
+        top: 500px;
+      }
+      .runway-c {
+        left: 650px;
+        top: 500px;
+      }
+
+      /* 场地尺寸 */
+      .field {
+        width: 220px;
+        height: 100px;
+      }
+      .field-a {
+        left: 500px;
+        top: 280px;
+      }
+
+      /* ===== 弹窗 ===== */
+      .zone-popup {
+        position: absolute;
+        z-index: 100;
+        display: none;
+        min-width: 230px;
+        padding: 14px 16px;
+        background: rgba(8, 30, 60, 0.96);
+        border: 1px solid rgba(76, 181, 255, 0.4);
+        border-radius: 10px;
+        box-shadow:
+          0 8px 40px rgba(0, 0, 0, 0.6),
+          0 0 30px rgba(50, 200, 255, 0.15);
+        backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+
+      /* ★★★ 空闲区域永远不显示弹窗 ★★★ */
+      .zone.free .zone-popup {
+        display: none !important;
+      }
+
+      /* 占用且激活时显示弹窗 */
+      .zone.occupied.is-active .zone-popup {
+        display: block;
+        animation: popupFade 0.35s ease;
+      }
+
+      @keyframes popupFade {
+        0% {
+          opacity: 0;
+          transform: translateX(-50%) translateY(12px) scale(0.96);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0) scale(1);
+        }
+      }
+
+      .zone .zone-popup {
+        top: -130px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .runway .zone-popup {
+        top: -120px;
+      }
+      .field .zone-popup {
+        top: -115px;
+      }
+
+      .popup-title {
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid rgba(76, 181, 255, 0.25);
+        color: #4cb5ff;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .popup-content {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .popup-row {
+        display: flex;
+        justify-content: space-between;
+        color: #b0d8f5;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .popup-row span:first-child {
+        color: #7fbce8;
+      }
+
+      .popup-bar {
+        margin-top: 8px;
+      }
+      .popup-bar span {
+        display: block;
+        margin-bottom: 4px;
+        color: #7fbce8;
+        font-size: 11px;
+      }
+      .bar-fill {
+        height: 8px;
+        border-radius: 6px;
+        background: linear-gradient(90deg, #ff6b6b, #ffa502);
+        transition: width 0.5s ease;
+      }
+
+      /* 轮播指示器 */
+      .carousel-indicator {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 6px 14px;
+        border-radius: 20px;
+        backdrop-filter: blur(4px);
+      }
+      .carousel-indicator .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+      }
+      .carousel-indicator .dot.active {
+        background: #38a7ff;
+        box-shadow: 0 0 12px rgba(56, 167, 255, 0.6);
+        transform: scale(1.2);
+      }
+      .carousel-indicator .dot:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      .map-layer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+          radial-gradient(
+            circle at 200px 200px,
+            rgba(56, 167, 255, 0.03) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            circle at 600px 400px,
+            rgba(56, 167, 255, 0.03) 0%,
+            transparent 60%
+          );
+        pointer-events: none;
+        border-radius: 20px;
+      }
+
+      @media (max-width: 920px) {
+        .map-layer {
+          width: 100%;
+          height: 600px;
+          transform: scale(0.75);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="map-layer">
+      <div class="map-zones" id="zoneContainer"></div>
+      <div class="carousel-indicator" id="carouselIndicator"></div>
+    </div>
+
+    <script>
+      // ============================================================
+      // 1. 数据定义（占用/空闲状态 + 弹窗内容）
+      // ============================================================
+      const zoneData = [
+        // 三号机库（占用，满）
+        {
+          id: 'hangar-3',
+          type: 'hangar',
+          cssClass: 'hangar hangar-3',
+          label: '三号机库',
+          status: 'occupied',
+          popup: {
+            title: '无人机统计',
+            rows: [
+              { label: '机型X', value: '6架' },
+              { label: '机型Y', value: '4架' },
+              { label: '机型Z', value: '8架' },
+            ],
+            bar: { label: '已存放20架 / 0架可用', width: '100%' },
+          },
+        },
+        // 二号机库（占用，有余量）
+        {
+          id: 'hangar-2',
+          type: 'hangar',
+          cssClass: 'hangar hangar-2',
+          label: '二号机库',
+          status: 'occupied',
+          popup: {
+            title: '无人机统计',
+            rows: [
+              { label: '机型X', value: '6架' },
+              { label: '机型Y', value: '4架' },
+              { label: '机型Z', value: '8架' },
+            ],
+            bar: { label: '已存放18架 / 2架可用', width: '90%' },
+          },
+        },
+        // 一号机库（空闲）
+        {
+          id: 'hangar-1',
+          type: 'hangar',
+          cssClass: 'hangar hangar-1',
+          label: '一号机库',
+          status: 'free',
+          popup: {
+            title: '无人机统计',
+            rows: [
+              { label: '机型X', value: '-' },
+              { label: '机型Y', value: '-' },
+              { label: '机型Z', value: '-' },
+            ],
+            bar: { label: '空闲', width: '0%' },
+          },
+        },
+        // 场地A（空闲）
+        {
+          id: 'field-a',
+          type: 'field',
+          cssClass: 'field field-a',
+          label: '场地A',
+          status: 'free',
+          popup: {
+            title: '场地状态',
+            rows: [
+              { label: '当前状态', value: '空闲' },
+              { label: '最近使用', value: '今日 10:00' },
+            ],
+          },
+        },
+        // 跑道A（空闲）
+        {
+          id: 'runway-a',
+          type: 'runway',
+          cssClass: 'runway runway-a',
+          label: '跑道A',
+          status: 'free',
+          popup: {
+            title: '试验队信息',
+            rows: [
+              { label: '试验队名称', value: '-' },
+              { label: '人数', value: '-' },
+              { label: '位置', value: '-' },
+              { label: '预约时间', value: '-' },
+            ],
+          },
+        },
+        // 跑道B（占用）
+        {
+          id: 'runway-b',
+          type: 'runway',
+          cssClass: 'runway runway-b',
+          label: '跑道B',
+          status: 'occupied',
+          popup: {
+            title: '试验队信息',
+            rows: [
+              { label: '试验队名称', value: '先锋试验队' },
+              { label: '人数', value: '20人' },
+              { label: '位置', value: '院内' },
+              { label: '预约时间', value: '9:00-12:00' },
+            ],
+          },
+        },
+        // 跑道C（空闲）
+        {
+          id: 'runway-c',
+          type: 'runway',
+          cssClass: 'runway runway-c',
+          label: '跑道C',
+          status: 'free',
+          popup: {
+            title: '试验队信息',
+            rows: [
+              { label: '试验队名称', value: '-' },
+              { label: '人数', value: '-' },
+              { label: '位置', value: '-' },
+              { label: '预约时间', value: '-' },
+            ],
+          },
+        },
+      ];
+
+      // ============================================================
+      // 2. 渲染函数
+      // ============================================================
+      function renderZones() {
+        const container = document.getElementById('zoneContainer');
+        container.innerHTML = '';
+
+        zoneData.forEach((item, index) => {
+          const zone = document.createElement('div');
+          zone.className = `zone ${item.cssClass} ${item.status === 'occupied' ? 'occupied' : 'free'}`;
+          zone.dataset.index = index;
+
+          const bg = document.createElement('div');
+          bg.className = 'zone-bg';
+          zone.appendChild(bg);
+
+          const label = document.createElement('div');
+          label.className = 'zone-label';
+          label.textContent = item.label;
+          zone.appendChild(label);
+
+          const statusText = document.createElement('div');
+          statusText.className = 'zone-status';
+          statusText.textContent = item.status === 'occupied' ? '占用' : '空闲';
+          zone.appendChild(statusText);
+
+          // ---- 弹窗 ----
+          const popup = document.createElement('div');
+          popup.className = 'zone-popup';
+
+          const title = document.createElement('div');
+          title.className = 'popup-title';
+          title.textContent = item.popup.title;
+          popup.appendChild(title);
+
+          const content = document.createElement('div');
+          content.className = 'popup-content';
+
+          if (item.popup.rows && item.popup.rows.length > 0) {
+            item.popup.rows.forEach((row) => {
+              const rowDiv = document.createElement('div');
+              rowDiv.className = 'popup-row';
+              rowDiv.innerHTML = `<span>${row.label}</span><span>${row.value}</span>`;
+              content.appendChild(rowDiv);
+            });
+          }
+
+          if (item.popup.bar) {
+            const barWrap = document.createElement('div');
+            barWrap.className = 'popup-bar';
+            const barLabel = document.createElement('span');
+            barLabel.textContent = item.popup.bar.label;
+            barWrap.appendChild(barLabel);
+            const fill = document.createElement('div');
+            fill.className = 'bar-fill';
+            fill.style.width = item.popup.bar.width;
+            barWrap.appendChild(fill);
+            content.appendChild(barWrap);
+          }
+
+          popup.appendChild(content);
+          zone.appendChild(popup);
+
+          zone.addEventListener('click', function (e) {
+            e.stopPropagation();
+            stopAutoPlay();
+            setActiveIndex(index);
+            setTimeout(() => startAutoPlay(), 4000);
+          });
+
+          container.appendChild(zone);
+        });
+
+        renderIndicator();
+      }
+
+      // ============================================================
+      // 3. 指示器渲染
+      // ============================================================
+      function renderIndicator() {
+        const indicator = document.getElementById('carouselIndicator');
+        indicator.innerHTML = '';
+        zoneData.forEach((item, index) => {
+          const dot = document.createElement('button');
+          dot.className = 'dot';
+          dot.dataset.index = index;
+          dot.title = item.label;
+          dot.addEventListener('click', function () {
+            stopAutoPlay();
+            setActiveIndex(index);
+            setTimeout(() => startAutoPlay(), 4000);
+          });
+          indicator.appendChild(dot);
+        });
+      }
+
+      // ============================================================
+      // 4. 轮播控制
+      // ============================================================
+      let currentIndex = 0;
+      let autoPlayTimer = null;
+      const INTERVAL = 3000;
+
+      function setActiveIndex(index) {
+        const allZones = document.querySelectorAll('.zone');
+        const dots = document.querySelectorAll('.dot');
+
+        allZones.forEach((el) => el.classList.remove('is-active'));
+        dots.forEach((el) => el.classList.remove('active'));
+
+        if (allZones[index]) {
+          allZones[index].classList.add('is-active');
+        }
+        if (dots[index]) {
+          dots[index].classList.add('active');
+        }
+        currentIndex = index;
+      }
+
+      function nextZone() {
+        const next = (currentIndex + 1) % zoneData.length;
+        setActiveIndex(next);
+      }
+
+      function startAutoPlay() {
+        if (autoPlayTimer) clearInterval(autoPlayTimer);
+        setActiveIndex(0);
+        autoPlayTimer = setInterval(nextZone, INTERVAL);
+      }
+
+      function stopAutoPlay() {
+        if (autoPlayTimer) {
+          clearInterval(autoPlayTimer);
+          autoPlayTimer = null;
+        }
+      }
+
+      // ============================================================
+      // 5. 初始化
+      // ============================================================
+      renderZones();
+      startAutoPlay();
+
+      const container = document.getElementById('zoneContainer');
+      container.addEventListener('mouseenter', stopAutoPlay);
+      container.addEventListener('mouseleave', startAutoPlay);
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          stopAutoPlay();
+        } else {
+          startAutoPlay();
+        }
+      });
+    </script>
+  </body>
+</html>

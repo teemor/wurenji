@@ -162,48 +162,62 @@
     },
   ];
 
-  if (window.layui) {
-    layui.use(['laytpl', 'element'], function () {
-      var laytpl = layui.laytpl;
-      var $ = layui.$;
+  function renderZones() {
+    var container = document.getElementById('map-zones');
+    if (!container) return;
 
-      var zoneTpl = [
-        '{{# layui.each(d, function(index, zone) { }}',
-        '<div class="zone {{ zone.cssClass }}" data-zone="{{ zone.id }}">',
-        '<div class="zone-bg"></div>',
-        '<div class="zone-label">{{ zone.label }}</div>',
-        '<div class="zone-popup">',
-        '<div class="popup-title">{{ zone.popup.title }}</div>',
-        '<div class="popup-content">',
-        '{{# layui.each(zone.popup.rows, function(i, row) { }}',
-        '<div class="popup-row"><span>{{ row.label }}</span><span>{{ row.value }}</span></div>',
-        '{{# }); }}',
-        '{{# if(zone.popup.bar) { }}',
-        '<div class="popup-bar"><span>{{ zone.popup.bar.label }}</span><div class="bar-fill" style="width:{{ zone.popup.bar.width }}"></div></div>',
-        '{{# } }}',
-        '</div></div>',
-        '</div>',
-        '{{# }); }}',
-      ].join('');
+    zoneData.forEach(function (zone) {
+      var zoneEl = document.createElement('div');
+      zoneEl.className = 'zone ' + zone.cssClass;
+      zoneEl.dataset.zone = zone.id;
 
-      laytpl(zoneTpl).render(zoneData, function (html) {
-        $('#map-zones').html(html);
-      });
+      zoneEl.innerHTML =
+        '<div class="zone-bg"></div>' +
+        '<div class="zone-label">' +
+        zone.label +
+        '</div>' +
+        '<div class="zone-popup">' +
+        '<div class="popup-title">' +
+        zone.popup.title +
+        '</div>' +
+        '<div class="popup-content">' +
+        zone.popup.rows
+          .map(function (row) {
+            return (
+              '<div class="popup-row"><span>' +
+              row.label +
+              '</span><span>' +
+              row.value +
+              '</span></div>'
+            );
+          })
+          .join('') +
+        (zone.popup.bar
+          ? '<div class="popup-bar"><span>' +
+            zone.popup.bar.label +
+            '</span><div class="bar-fill" style="width:' +
+            zone.popup.bar.width +
+            '"></div></div>'
+          : '') +
+        '</div></div>';
 
-      var zoneActiveIndex = 0;
-      function rotateZone() {
-        $('.zone').each(function (index) {
-          $(this).removeClass('is-active occupied free');
-          if (index === zoneActiveIndex) {
-            $(this).addClass('is-active ' + zoneData[index].status);
-          }
-        });
-        zoneActiveIndex = (zoneActiveIndex + 1) % zoneData.length;
-      }
-
-      window.setInterval(rotateZone, 2500);
+      container.appendChild(zoneEl);
     });
   }
+
+  var zoneActiveIndex = 0;
+  function rotateZone() {
+    var zones = document.querySelectorAll('.zone');
+    zones.forEach(function (zone, index) {
+      zone.classList.remove('is-active', 'occupied', 'free');
+      if (index === zoneActiveIndex) {
+        zone.classList.add('is-active', zoneData[index].status);
+      }
+    });
+    zoneActiveIndex = (zoneActiveIndex + 1) % zones.length;
+  }
+
+  renderZones();
   //end
   if (window.layui && window.echarts) {
     layui.use(['element'], function () {
@@ -303,4 +317,5 @@
   rotateMission();
   window.setInterval(updateClock, 1000);
   window.setInterval(rotateMission, 2200);
+  window.setInterval(rotateZone, 2500);
 })();
