@@ -763,6 +763,41 @@ body {
   height: 100%;
 }
 
+.map-legend {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 10;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-dot.free {
+  background: rgba(50, 200, 100, 0.8);
+}
+
+.legend-dot.occupied {
+  background: rgba(255, 100, 100, 0.8);
+}
+
+.legend-item span {
+  color: #7fbce8;
+  font-size: 12px;
+}
+
 .zone {
   position: absolute;
   display: flex;
