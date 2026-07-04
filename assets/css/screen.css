@@ -791,6 +791,22 @@ body {
   font-weight: 500;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
+.zone.runway-b .zone-label {
+  width: 10px;
+  text-wrap: wrap;
+  height: 185px;
+  margin-top: 150px;
+  margin-left: -10px;
+  display: flex;
+  flex-direction: column;
+  transform: skewX(-5deg); /* 整体倾斜成平行四边形 */
+}
+.zone.runway-b .zone-bg {
+  width: 35px;
+  height: 185px;
+  left: 70px;
+  transform: skewX(-5deg); /* 整体倾斜成平行四边形 */
+}
 
 .zone.is-active.occupied .zone-bg {
   background: rgba(255, 100, 100, 0.5);
@@ -905,7 +921,11 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
-
+.zone.runway-b .zone-popup {
+  top: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .zone.field .zone-popup {
   top: -80px;
   left: 50%;
