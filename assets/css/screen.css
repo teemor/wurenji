@@ -915,15 +915,45 @@ body {
 .zone-popup {
   position: absolute;
   z-index: 100;
-  display: none;
   min-width: 220px;
-  padding: 12px;
-  background: rgba(10, 40, 80, 0.95);
-  border: 1px solid rgba(76, 181, 255, 0.5);
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(50, 200, 255, 0.3);
+  /* 给顶部/底部伪元素留出空间 */
+  padding: 20px 0px 30px;
+  box-sizing: border-box;
+
+  /* 中间只保留可重复主体背景，并限制高度范围 */
+  background: url('../images/popup-card-thin.png') repeat-y center;
+  background-size: 100% auto;
+  /* 关键：把背景裁剪到内容区，伪元素的区域不显示中间背景 */
+  background-clip: content-box;
+
+  color: #fff;
 }
 
+/* 顶部背景 */
+.zone-popup::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 20.5px;
+  background: url('../images/popup-card-wide.png') no-repeat top center;
+  background-size: 100% auto;
+  z-index: 1;
+}
+
+/* 底部背景 */
+.zone-popup::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  background: url('../images/popup-card-tall.png') no-repeat bottom center;
+  background-size: 100% auto;
+  z-index: 1;
+}
 .zone.is-active.occupied .zone-popup {
   display: block;
 }
@@ -984,9 +1014,9 @@ body {
 .popup-title {
   padding-bottom: 8px;
   margin-bottom: 8px;
-  border-bottom: 1px solid rgba(76, 181, 255, 0.3);
-  color: #38a7ff;
+  color: #fff;
   font-size: 14px;
+  padding: 0px 20px;
   font-weight: 600;
 }
 
@@ -994,17 +1024,21 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding: 0 40px;
+  padding-top: 5px;
+  margin: 0 10px;
+  border-top: 1px solid rgba(76, 181, 255, 0.3);
 }
 
 .popup-row {
   display: flex;
   justify-content: space-between;
-  color: #a8d7f5;
+  color: #fff;
   font-size: 12px;
 }
 
 .popup-row span:first-child {
-  color: #7fbce8;
+  color: #fff;
 }
 
 .popup-bar {
