@@ -121,7 +121,6 @@
       popup: {
         title: '试验队信息',
         rows: [
-          { label: '试验队名称', value: '-' },
           { label: '人数', value: '-' },
           { label: '位置', value: '-' },
           { label: '预约时间', value: '-' },
@@ -137,7 +136,6 @@
       popup: {
         title: '试验队信息',
         rows: [
-          { label: '试验队名称', value: '先锋试验队' },
           { label: '人数', value: '20人' },
           { label: '位置', value: '院内' },
           { label: '预约时间', value: '9:00-12:00' },
@@ -153,7 +151,6 @@
       popup: {
         title: '试验队信息',
         rows: [
-          { label: '试验队名称', value: '-' },
           { label: '人数', value: '-' },
           { label: '位置', value: '-' },
           { label: '预约时间', value: '-' },
@@ -179,7 +176,7 @@
         '<div class="popup-row"><span>{{ row.label }}</span><span>{{ row.value }}</span></div>',
         '{{# }); }}',
         '{{# if(zone.popup.bar) { }}',
-        '<div class="popup-bar"><span>{{ zone.popup.bar.label }}</span><div class="bar-fill" style="width:{{ zone.popup.bar.width }}"></div></div>',
+        '<div class="bar-fill" style="width:{{ zone.popup.bar.width }}"></div><div class="popup-bar"><span>{{ zone.popup.bar.label }}</span></div>',
         '{{# } }}',
         '</div></div>',
         '</div>',
