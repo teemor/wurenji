@@ -13,6 +13,11 @@
   src: url('../fonts/source-han-sans-cn-bold.ttf') format('truetype');
   font-weight: 700;
 }
+@font-face {
+  font-family: 'SourceHanLight';
+  src: url('../fonts/source-han-sans-cn-light.ttf') format('truetype');
+  font-weight: 300;
+}
 
 @font-face {
   font-family: 'YouShe';
@@ -915,7 +920,7 @@ body {
 .zone-popup {
   position: absolute;
   z-index: 100;
-  min-width: 220px;
+  min-width: 270px;
   /* 给顶部/底部伪元素留出空间 */
   padding: 20px 0px 29.4px;
   box-sizing: border-box;
@@ -925,8 +930,9 @@ body {
   background-size: 100% auto;
   /* 关键：把背景裁剪到内容区，伪元素的区域不显示中间背景 */
   background-clip: content-box;
-
+  display: none;
   color: #fff;
+  opacity: 0.95;
 }
 
 /* 顶部背景 */
@@ -1015,7 +1021,7 @@ body {
   padding-bottom: 8px;
   margin-bottom: 8px;
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
   padding: 0px 20px;
   font-weight: 600;
 }
@@ -1030,10 +1036,12 @@ body {
 }
 
 .popup-row {
+  font-family: 'SourceHanLight';
+
   display: flex;
   justify-content: space-between;
   color: #fff;
-  font-size: 12px;
+  font-size: 16px;
   padding: 0 30px;
 }
 
@@ -1050,15 +1058,18 @@ body {
 }
 
 .bar-text {
-  color: #7fbce8;
-  font-size: 12px;
+  font-family: 'SourceHanLight';
+
+  color: #fff;
+  font-size: 16px;
   text-align: center;
 }
 
 .bar-text .bar-num {
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
+  font-family: 'SourceHanLight';
+
+  color: #ffd800;
+  font-size: 24px;
   margin: 0 2px;
 }
 
@@ -1069,7 +1080,7 @@ body {
 
 .bar-cell {
   flex: 1;
-  height: 15px;
+  height: 18px;
   background: rgba(50, 50, 70, 0.6);
   border-right: 1px solid rgba(50, 50, 70, 0.6);
 }
@@ -1077,7 +1088,7 @@ body {
   border-right: none;
 }
 .bar-cell.used {
-  background: rgba(30, 140, 255, 0.9);
+  background: #71b7f4;
 }
 
 .route-lines {
