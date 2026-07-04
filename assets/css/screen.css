@@ -944,6 +944,51 @@ body {
   border-radius: 0;
 }
 
+.notification-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 180px; /* 控制列表高度，超出部分滚动 */
+  overflow-y: auto;
+}
+
+/* 自定义滚动条，适配科技大屏风格 */
+.notification-list::-webkit-scrollbar {
+  width: 4px;
+}
+.notification-list::-webkit-scrollbar-track {
+  background: rgba(18, 80, 140, 0.1);
+  border-radius: 2px;
+}
+.notification-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4ab8ff, #1e88e5);
+  border-radius: 2px;
+}
+
+.notification-list li {
+  padding: 8px 12px;
+  color: #a8d7f5;
+  font-size: 13px;
+  line-height: 1.5;
+  /* 核心：左右渐变背景 */
+  background: linear-gradient(
+    90deg,
+    rgba(18, 80, 140, 0.1) 0%,
+    rgba(18, 80, 140, 0.4) 50%,
+    rgba(18, 80, 140, 0.1) 100%
+  );
+}
+
+/* 奇数项调整渐变透明度，和截图里的深浅交替对应 */
+.notification-list li:nth-child(odd) {
+  background: linear-gradient(
+    90deg,
+    rgba(18, 80, 140, 0.05) 0%,
+    rgba(18, 80, 140, 0.2) 50%,
+    rgba(18, 80, 140, 0.05) 100%
+  );
+}
+
 .alarm-list {
   display: grid;
   gap: 16px;
