@@ -1,18 +1,22 @@
 @font-face {
-  font-family: "SourceHan";
-  src: url("../fonts/source-han-sans-cn-regular.ttf") format("truetype");
+  font-family: 'SourceHan';
+  src: url('../fonts/source-han-sans-cn-regular.ttf') format('truetype');
   font-weight: 400;
 }
-
 @font-face {
-  font-family: "SourceHan";
-  src: url("../fonts/source-han-sans-cn-bold.ttf") format("truetype");
+  font-family: 'SourceHanMedium';
+  src: url('../fonts/source-han-sans-cn-medium.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'SourceHanBold';
+  src: url('../fonts/source-han-sans-cn-bold.ttf') format('truetype');
   font-weight: 700;
 }
 
 @font-face {
-  font-family: "YouShe";
-  src: url("../fonts/you-she-biao-ti-hei.ttf") format("truetype");
+  font-family: 'YouShe';
+  src: url('../fonts/you-she-biao-ti-hei.ttf') format('truetype');
   font-weight: 700;
 }
 
@@ -27,14 +31,22 @@ body {
   margin: 0;
   overflow: hidden;
   background: #010812;
-  font-family: "SourceHan", "Microsoft YaHei", Arial, sans-serif;
+  font-family: 'SourceHan', 'Microsoft YaHei', Arial, sans-serif;
   color: #dcefff;
 }
 
 body {
   background:
-    radial-gradient(circle at 50% 14%, rgba(43, 172, 255, 0.35), transparent 32%),
-    radial-gradient(circle at 46% 70%, rgba(0, 236, 190, 0.16), transparent 28%),
+    radial-gradient(
+      circle at 50% 14%,
+      rgba(43, 172, 255, 0.35),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 46% 70%,
+      rgba(0, 236, 190, 0.16),
+      transparent 28%
+    ),
     linear-gradient(180deg, #061b35 0%, #020915 58%, #010711 100%);
 }
 
@@ -53,7 +65,12 @@ body {
   overflow: hidden;
   transform-origin: 0 0;
   background:
-    linear-gradient(90deg, rgba(2, 8, 20, 0.96) 0%, rgba(3, 25, 52, 0.72) 50%, rgba(2, 8, 20, 0.96) 100%),
+    linear-gradient(
+      90deg,
+      rgba(2, 8, 20, 0.96) 0%,
+      rgba(3, 25, 52, 0.72) 50%,
+      rgba(2, 8, 20, 0.96) 100%
+    ),
     #031127;
 }
 
@@ -80,13 +97,11 @@ body {
 
 .topbar {
   position: absolute;
-  left: 32px;
-  top: 18px;
   z-index: 10;
   display: grid;
-  grid-template-columns: 1fr 620px 1fr;
   align-items: start;
-  width: 1856px;
+  justify-items: center;
+  width: 100%;
   height: 92px;
 }
 
@@ -104,7 +119,7 @@ body {
 .topbar-side strong {
   margin-left: 6px;
   color: #28f8ff;
-  font-family: "YouShe", "SourceHan", sans-serif;
+  font-family: 'YouShe', 'SourceHan', sans-serif;
   font-size: 24px;
   font-weight: 700;
 }
@@ -171,48 +186,33 @@ body {
 .brand h1 {
   position: relative;
   margin: 0;
-  color: #e9fbff;
-  font-family: "YouShe", "SourceHan", sans-serif;
+  font-family: 'YouShe';
   font-size: 42px;
   font-weight: 700;
   line-height: 1;
-  letter-spacing: 0;
-  text-shadow:
-    0 0 12px rgba(40, 245, 255, 0.82),
-    0 0 28px rgba(37, 121, 255, 0.58);
+  letter-spacing: 3px;
+  /* 1. 字体渐变（从亮白到浅蓝，和截图风格一致） */
+  background: linear-gradient(180deg, #ffffff 0%, #b8e4ff 50%, #7ac8ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent; /* 文字透明，显示背景渐变 */
+  /* 3. 立体浮雕效果（模拟截图里的深色底部阴影） */
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.6));
 }
 
 .panel {
   position: absolute;
   z-index: 8;
   width: 408px;
-  padding: 20px 22px 22px;
-  border: 1px solid rgba(90, 198, 255, 0.4);
+  padding: 0px 22px 22px;
+  /* height: 238px; */
   background:
-    linear-gradient(180deg, rgba(16, 94, 154, 0.23), rgba(4, 27, 65, 0.54)),
-    rgba(3, 14, 34, 0.48);
-  box-shadow:
-    inset 0 0 24px rgba(45, 190, 255, 0.16),
-    0 0 24px rgba(3, 28, 76, 0.22);
-  backdrop-filter: blur(2px);
-}
-
-.panel::before,
-.panel::after {
-  position: absolute;
-  top: -1px;
-  width: 54px;
-  height: 2px;
-  content: "";
-  background: linear-gradient(90deg, transparent, #38f2ff, transparent);
-}
-
-.panel::before {
-  left: 12px;
-}
-
-.panel::after {
-  right: 12px;
+    url('../images/title-line-bottom.png') no-repeat bottom center,
+    /* 图3：最下面的背景 */ url('../images/title-glow-main.png') no-repeat top
+      center,
+    /* 图2：放最上面写标题 */ url('../images/title-line-top.png') repeat-y
+      center; /* 图1：从上到下平铺 */
+  /* background: url('../images/title-line-top.png') repeat-y center; */
 }
 
 .panel-left {
@@ -243,19 +243,31 @@ body {
 
 .panel-title {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   height: 34px;
   margin-bottom: 18px;
-  border-bottom: 1px solid rgba(66, 194, 255, 0.34);
 }
 
 .panel-title span {
-  color: #e8fbff;
-  font-family: "YouShe", "SourceHan", sans-serif;
-  font-size: 24px;
+  font-family: 'SourceHanMedium';
+  font-size: 14px;
   line-height: 1;
-  letter-spacing: 0;
+  letter-spacing: 1px;
+  /* font-weight: bold; */
+
+  /* 1. 实现文字纯白到浅蓝的上下渐变 */
+  background: linear-gradient(to bottom, #ffffff 0%, #e2f5ff 40%, #aadcff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* 2. 实现浅蓝色的外发光与微描边效果 */
+  -webkit-text-stroke: 1px rgba(111, 203, 255, 0.4);
+  filter: drop-shadow(0 0 2px rgba(92, 191, 255, 0.3))
+    drop-shadow(0 0 5px rgba(43, 142, 255, 0.1));
+
+  /* 确保块级或行内块级以正确支持 filter 滤镜渲染 */
+  display: inline-block;
 }
 
 .panel-title small {
@@ -265,18 +277,28 @@ body {
 }
 
 .stat-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  /* display: grid; */
+  /* grid-template-columns: repeat(2, 1fr); */
+  /* gap: 14px; */
 }
 
 .stat-item {
   height: 72px;
   padding: 12px 15px;
-  border: 1px solid rgba(73, 185, 255, 0.24);
-  background: linear-gradient(90deg, rgba(13, 89, 160, 0.38), rgba(3, 26, 63, 0.12));
+  border: none;
 }
-
+.stat-item:nth-child(1) {
+  border-right: 1px solid rgba(73, 185, 255, 0.24);
+  border-bottom: 1px solid rgba(73, 185, 255, 0.24);
+}
+.stat-item:nth-child(2) {
+  border-bottom: 1px solid rgba(73, 185, 255, 0.24);
+}
+.stat-item:nth-child(3) {
+  border-right: 1px solid rgba(73, 185, 255, 0.24);
+}
+.stat-item:nth-child(4) {
+}
 .stat-item span,
 .weather-item span,
 .bar-row label,
@@ -291,7 +313,7 @@ body {
   display: block;
   margin-top: 4px;
   color: #f2fbff;
-  font-family: "YouShe", "SourceHan", sans-serif;
+  font-family: 'YouShe', 'SourceHan', sans-serif;
   font-size: 34px;
   line-height: 1;
 }
@@ -322,7 +344,7 @@ body {
 .flight-summary em {
   display: block;
   color: #fff;
-  font-family: "YouShe", "SourceHan", sans-serif;
+  font-family: 'YouShe', 'SourceHan', sans-serif;
   font-size: 36px;
   font-style: normal;
   line-height: 1;
@@ -386,7 +408,7 @@ body {
 .weather-item strong {
   margin-top: 8px;
   color: #fff;
-  font-family: "YouShe", "SourceHan", sans-serif;
+  font-family: 'YouShe', 'SourceHan', sans-serif;
   font-size: 24px;
   line-height: 1;
 }
@@ -461,7 +483,7 @@ body {
   height: 16px;
   margin: -8px 0 0 -8px;
   border-radius: 50%;
-  content: "";
+  content: '';
   background: #2ff7ff;
   box-shadow: 0 0 24px #2ff7ff;
 }
@@ -680,7 +702,11 @@ body {
   justify-content: center;
   height: 164px;
   border: 1px solid rgba(80, 184, 255, 0.22);
-  background: radial-gradient(circle at 50% 36%, rgba(48, 203, 255, 0.24), transparent 52%);
+  background: radial-gradient(
+    circle at 50% 36%,
+    rgba(48, 203, 255, 0.24),
+    transparent 52%
+  );
 }
 
 .exhibit-box img {
@@ -711,14 +737,18 @@ body {
   height: 62px;
   padding: 10px 18px;
   border: 1px solid rgba(70, 176, 255, 0.28);
-  background: linear-gradient(180deg, rgba(9, 75, 139, 0.45), rgba(2, 16, 38, 0.36));
+  background: linear-gradient(
+    180deg,
+    rgba(9, 75, 139, 0.45),
+    rgba(2, 16, 38, 0.36)
+  );
 }
 
 .bottom-status strong {
   display: block;
   margin-top: 2px;
   color: #29f3ff;
-  font-family: "YouShe", "SourceHan", sans-serif;
+  font-family: 'YouShe', 'SourceHan', sans-serif;
   font-size: 28px;
   line-height: 1;
 }
