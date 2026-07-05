@@ -858,11 +858,14 @@ body {
   width: 40px;
   text-wrap: wrap;
   height: 185px;
-  margin-top: 200px;
+  margin-top: 100px;
   margin-left: 0px;
   display: flex;
   flex-direction: column;
   transform: skewX(-5deg); /* 整体倾斜成平行四边形 */
+}
+.zone.hangar-1 .zone-label {
+  margin-top: 40px;
 }
 .zone.runway-b .zone-label {
   width: 10px;
@@ -1018,9 +1021,11 @@ body {
 .hangar-1 {
   left: 965px;
   top: 325px;
+  height: 51px;
 }
 
 .hangar-2 {
+  height: 300px;
   left: 500px;
   top: 290px;
 }
@@ -1028,6 +1033,7 @@ body {
 .hangar-3 {
   left: 523px;
   top: 139px;
+  height: 103px;
 }
 
 .runway {

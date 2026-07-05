@@ -85,7 +85,7 @@
           { label: '机型Z', value: '8架' },
         ],
         bar: {
-          used: '18',
+          used: '16',
           available: '2',
           total: 18,
           usedCount: 16,
@@ -97,15 +97,20 @@
       type: 'hangar',
       cssClass: 'hangar hangar-1',
       label: '一号机库',
-      status: 'free',
+      status: 'occupied',
       popup: {
         title: '无人机统计',
         rows: [
-          { label: '机型X', value: '-' },
-          { label: '机型Y', value: '-' },
-          { label: '机型Z', value: '-' },
+          { label: '机型X', value: '6架' },
+          { label: '机型Y', value: '4架' },
+          { label: '机型Z', value: '8架' },
         ],
-        bar: { label: '空闲', width: '0%' },
+        bar: {
+          used: '18',
+          available: '2',
+          total: 18,
+          usedCount: 16,
+        },
       },
     },
     {
