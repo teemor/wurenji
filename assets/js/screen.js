@@ -127,7 +127,7 @@
       type: 'runway',
       cssClass: 'runway runway-a',
       label: '跑道A',
-      status: 'free',
+      status: 'occupied',
       popup: {
         title: '试验队信息',
         rows: [

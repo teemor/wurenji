@@ -81,7 +81,7 @@ body {
 .map-bg {
   position: absolute;
   left: 0;
-  top: 120px;
+  top: 80px;
   width: 1920px;
   height: 941px;
   object-fit: contain;
@@ -750,7 +750,7 @@ body {
 .map-layer {
   position: absolute;
   left: 0px;
-  top: 120px;
+  top: 80px;
   z-index: 6;
   width: 100%;
   height: 941px;
@@ -814,7 +814,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 8px;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -827,7 +826,7 @@ body {
   position: relative;
   z-index: 2;
   color: #fff;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -837,7 +836,17 @@ body {
   text-wrap: wrap;
   height: 185px;
   margin-top: 40px;
-  margin-left: 30px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  transform: skewX(-5deg); /* 整体倾斜成平行四边形 */
+}
+.zone.hangar-2 .zone-label {
+  width: 40px;
+  text-wrap: wrap;
+  height: 185px;
+  margin-top: 200px;
+  margin-left: 0px;
   display: flex;
   flex-direction: column;
   transform: skewX(-5deg); /* 整体倾斜成平行四边形 */
@@ -852,6 +861,9 @@ body {
   flex-direction: column;
   transform: skewX(-5deg); /* 整体倾斜成平行四边形 */
 }
+.zone.runway-a .zone-label {
+  font-size: 20px;
+}
 .zone.runway-c .zone-label {
   width: 10px;
   text-wrap: wrap;
@@ -863,41 +875,45 @@ body {
   transform: skewX(2deg); /* 整体倾斜成平行四边形 */
 }
 .zone.hangar-3 .zone-bg {
-  width: 55px;
-  height: 100px;
-  left: 30px;
-  transform: skewX(-10deg); /* 整体倾斜成平行四边形 */
+  width: 59px;
+  height: 103px;
+  left: 29px;
+  transform: skewX(-9deg); /* 整体倾斜成平行四边形 */
 }
 .zone.hangar-2 .zone-bg {
-  width: 55px;
-  height: 100px;
-  left: 30px;
-  transform: skewX(-10deg); /* 整体倾斜成平行四边形 */
+  width: 90px;
+  height: 300px;
+  transform: skewX(-9deg); /* 整体倾斜成平行四边形 */
+}
+.zone.hangar-1 .zone-bg {
+  width: 115px;
+  height: 51px;
+  top: 15px;
+  left: -10px;
 }
 .zone.runway-b .zone-bg {
-  width: 35px;
-  height: 185px;
+  width: 40px;
+  height: 200px;
   left: 70px;
   transform: skewX(-5deg); /* 整体倾斜成平行四边形 */
 }
 .zone.runway-c .zone-bg {
   width: 35px;
-  height: 185px;
-  left: 70px;
-  transform: skewX(5deg); /* 整体倾斜成平行四边形 */
+  height: 200px;
+  left: 78px;
+  transform: skewX(3deg); /* 整体倾斜成平行四边形 */
 }
-
+.zone.field-a .zone-bg {
+  transform: skewX(2deg); /* 整体倾斜成平行四边形 */
+}
 .zone.is-active.occupied .zone-bg {
-  background: rgba(255, 100, 100, 0.5);
-  border: 1px solid rgba(255, 100, 100, 0.8);
+  background: rgba(234, 67, 67, 0.8);
 }
 
 .zone.is-active.free .zone-bg {
   background: rgba(50, 200, 100, 0.4);
-  border: 1px solid rgba(50, 200, 100, 0.6);
 }
-
-.zone.runway-a.is-active.occupied .zone-bg {
+.zone.field-a.is-active.occupied .zone-bg {
   background: linear-gradient(
     90deg,
     rgba(255, 100, 100, 0.1) 0%,
@@ -907,15 +923,35 @@ body {
     rgba(255, 100, 100, 0.1) 100%
   );
 }
+.zone.field-a.is-active.free .zone-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(70, 160, 180, 0.15) 0%,
+    rgba(50, 200, 200, 0.6) 30%,
+    rgba(50, 200, 200, 0.6) 50%,
+    rgba(50, 200, 200, 0.6) 70%,
+    rgba(70, 160, 180, 0.15) 100%
+  );
+}
+.zone.runway-a.is-active.occupied .zone-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 100, 100, 0.1) 0%,
+    rgba(234, 67, 67, 0.8) 30%,
+    rgba(234, 67, 67, 0.8) 50%,
+    rgba(234, 67, 67, 0.8) 70%,
+    rgba(255, 100, 100, 0.1) 100%
+  );
+}
 
 .zone.runway-a.is-active.free .zone-bg {
   background: linear-gradient(
     90deg,
-    rgba(50, 200, 100, 0.1) 0%,
-    rgba(50, 200, 100, 0.4) 30%,
-    rgba(50, 200, 100, 0.5) 50%,
-    rgba(50, 200, 100, 0.4) 70%,
-    rgba(50, 200, 100, 0.1) 100%
+    rgba(70, 160, 180, 0.15) 0%,
+    rgba(50, 200, 200, 0.6) 30%,
+    rgba(50, 200, 200, 0.6) 50%,
+    rgba(50, 200, 200, 0.6) 70%,
+    rgba(70, 160, 180, 0.15) 100%
   );
 }
 
@@ -930,13 +966,13 @@ body {
 }
 
 .hangar-2 {
-  left: 520px;
-  top: 280px;
+  left: 500px;
+  top: 290px;
 }
 
 .hangar-3 {
-  left: 521px;
-  top: 135px;
+  left: 523px;
+  top: 139px;
 }
 
 .runway {
@@ -953,7 +989,7 @@ body {
 
 .runway-b {
   left: 603px;
-  top: 600px;
+  top: 590px;
   /* transform: skewX(-20deg);  */
   /* 整体倾斜成平行四边形 */
 }
@@ -966,12 +1002,12 @@ body {
 }
 
 .field {
-  width: 220px;
-  height: 100px;
+  width: 330px;
+  height: 108px;
 }
 
 .field-a {
-  left: 1040px;
+  left: 1000px;
   top: 430px;
 }
 
