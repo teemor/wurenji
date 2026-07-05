@@ -94,7 +94,7 @@ body {
   left: 0;
   top: 0;
   width: 1920px;
-  height: 1038px;
+  height: 1088px;
   pointer-events: none;
   z-index: 3;
 }
@@ -765,7 +765,7 @@ body {
 
 .map-legend {
   position: absolute;
-  top: 0;
+  top: 60px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -780,13 +780,13 @@ body {
 }
 
 .legend-dot {
-  width: 12px;
+  width: 18px;
   height: 12px;
-  border-radius: 2px;
+  margin-right: 10px;
 }
 
 .legend-dot.free {
-  background: rgba(50, 200, 100, 0.8);
+  background: #01dacf;
 }
 
 .legend-dot.occupied {
@@ -794,8 +794,8 @@ body {
 }
 
 .legend-item span {
-  color: #7fbce8;
-  font-size: 12px;
+  color: #9cd5f2;
+  font-size: 20px;
 }
 
 .zone {
@@ -829,8 +829,21 @@ body {
   font-size: 18px;
   font-weight: 500;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  padding-top: 12px;
 }
-
+.zone-label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  /* 蓝色圆点 + 白色外发光 */
+  background: #0052cc;
+  border: 2px solid #fff;
+}
 .zone.hangar-3 .zone-label {
   width: 40px;
   text-wrap: wrap;
@@ -860,9 +873,37 @@ body {
   display: flex;
   flex-direction: column;
   transform: skewX(-5deg); /* 整体倾斜成平行四边形 */
+  padding-top: 30px;
+}
+.zone.runway-b .zone-label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  /* 蓝色圆点 + 白色外发光 */
+  background: #16c8eb;
+  border: 2px solid #fff;
 }
 .zone.runway-a .zone-label {
   font-size: 20px;
+  padding-left: 30px;
+}
+.zone.runway-a .zone-label::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  /* 蓝色圆点 + 白色外发光 */
+  background: #0052cc;
+  border: 2px solid #fff;
 }
 .zone.runway-c .zone-label {
   width: 10px;
@@ -873,6 +914,20 @@ body {
   display: flex;
   flex-direction: column;
   transform: skewX(2deg); /* 整体倾斜成平行四边形 */
+  padding-top: 30px;
+}
+.zone.runway-c .zone-label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  /* 蓝色圆点 + 白色外发光 */
+  background: #16c8eb;
+  border: 2px solid #fff;
 }
 .zone.hangar-3 .zone-bg {
   width: 59px;
