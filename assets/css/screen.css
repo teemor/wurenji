@@ -934,19 +934,18 @@ body {
 }
 .zone.hangar-3 .zone-bg {
   width: 59px;
-  height: 103px;
   left: 29px;
-  transform: skewX(-9deg); /* 整体倾斜成平行四边形 */
+  bottom: 0;
+  transform: skewX(-9deg);
 }
 .zone.hangar-2 .zone-bg {
   width: 90px;
-  height: 300px;
-  transform: skewX(-9deg); /* 整体倾斜成平行四边形 */
+  bottom: 0;
+  transform: skewX(-9deg);
 }
 .zone.hangar-1 .zone-bg {
   width: 115px;
-  height: 51px;
-  top: 15px;
+  bottom: 0;
   left: -10px;
 }
 .zone.runway-b .zone-bg {

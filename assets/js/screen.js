@@ -182,7 +182,11 @@
       var zoneTpl = [
         '{{# layui.each(d, function(index, zone) { }}',
         '<div class="zone {{ zone.cssClass }}" data-zone="{{ zone.id }}">',
+        '{{# if(zone.type === "hangar") { }}',
+        '<div class="zone-bg" style="height:{{ zone.popup.bar ? Math.round(zone.popup.bar.usedCount / zone.popup.bar.total * 100) : 100 }}%"></div>',
+        '{{# } else { }}',
         '<div class="zone-bg"></div>',
+        '{{# } }}',
         '<div class="zone-label">{{ zone.label }}</div>',
         '<div class="zone-popup">',
         // 无人机,场地
