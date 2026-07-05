@@ -831,6 +831,17 @@ body {
   font-weight: 500;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+.zone.hangar-3 .zone-label {
+  width: 40px;
+  text-wrap: wrap;
+  height: 185px;
+  margin-top: 40px;
+  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  transform: skewX(-5deg); /* 整体倾斜成平行四边形 */
+}
 .zone.runway-b .zone-label {
   width: 10px;
   text-wrap: wrap;
@@ -850,6 +861,18 @@ body {
   display: flex;
   flex-direction: column;
   transform: skewX(2deg); /* 整体倾斜成平行四边形 */
+}
+.zone.hangar-3 .zone-bg {
+  width: 55px;
+  height: 100px;
+  left: 30px;
+  transform: skewX(-10deg); /* 整体倾斜成平行四边形 */
+}
+.zone.hangar-2 .zone-bg {
+  width: 55px;
+  height: 100px;
+  left: 30px;
+  transform: skewX(-10deg); /* 整体倾斜成平行四边形 */
 }
 .zone.runway-b .zone-bg {
   width: 35px;
@@ -912,8 +935,8 @@ body {
 }
 
 .hangar-3 {
-  left: 520px;
-  top: 120px;
+  left: 521px;
+  top: 135px;
 }
 
 .runway {
