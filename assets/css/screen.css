@@ -944,7 +944,6 @@ body {
   transform: skewX(-9deg);
 }
 .zone.hangar-1 .zone-bg {
-  width: 115px;
   bottom: 0;
   left: -10px;
 }
@@ -1019,8 +1018,9 @@ body {
 
 .hangar-1 {
   left: 965px;
-  top: 325px;
+  top: 340px;
   height: 51px;
+  width: 115px;
 }
 
 .hangar-2 {
@@ -1156,7 +1156,7 @@ body {
 }
 
 .zone.hangar-1 .zone-popup {
-  top: -200px;
+  top: -250px;
   left: 50%;
   transform: translateX(-50%);
 }
